@@ -3,10 +3,10 @@ import {
   DetectResponse,
   Rebuff,
   RebuffError,
-} from "./interface";
+} from "./interface.js";
 import fetch from "node-fetch";
 import crypto from "crypto";
-import { ApiConfig } from "./config";
+import { ApiConfig } from "./config.js";
 
 function encodeString(message: string): string {
   return Buffer.from(message, "utf-8").toString("hex");

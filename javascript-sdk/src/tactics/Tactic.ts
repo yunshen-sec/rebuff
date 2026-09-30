@@ -1,4 +1,4 @@
-import { TacticName } from "../interface";
+import { TacticName } from "../interface.js";
 
 export interface TacticExecution {
     // A score between 0 and 1, inclusive, representing the likelihood that the input is prompt

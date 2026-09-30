@@ -1,14 +1,14 @@
-export { default as RebuffApi } from "./api";
-export { default as RebuffSdk } from "./sdk";
+export { default as RebuffApi } from "./api.js";
+export { default as RebuffSdk } from "./sdk.js";
 export type {
   ApiConfig,
   SdkConfig,
   RebuffConfig,
   VectorDbConfig,
-} from "./config";
+} from "./config.js";
 export {
   RebuffError
-} from "./interface";
+} from "./interface.js";
 export type {
   DetectRequest,
   DetectResponse,
@@ -16,4 +16,4 @@ export type {
   TacticName,
   TacticOverride,
   TacticResult
-} from "./interface";
+} from "./interface.js";

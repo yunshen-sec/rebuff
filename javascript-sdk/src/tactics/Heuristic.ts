@@ -1,7 +1,7 @@
 import stringSimilarity from "string-similarity";
-import { normalizeString } from "../lib/prompts";
-import { TacticName } from "../interface";
-import Tactic, { TacticExecution } from "./Tactic";
+import { normalizeString } from "../lib/prompts.js";
+import { TacticName } from "../interface.js";
+import Tactic, { TacticExecution } from "./Tactic.js";
 
 function generateInjectionKeywords() {
   // Define lists of verbs, adjectives, prepositions, and objects

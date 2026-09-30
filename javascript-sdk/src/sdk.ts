@@ -4,17 +4,17 @@ import {
   Rebuff,
   RebuffError,
   TacticResult,
-} from "./interface";
+} from "./interface.js";
 import crypto from "crypto";
-import { SdkConfig } from "./config";
-import initVectorStore from "./lib/vectordb";
-import getOpenAIInstance from "./lib/openai";
+import { SdkConfig } from "./config.js";
+import initVectorStore from "./lib/vectordb.js";
+import getOpenAIInstance from "./lib/openai.js";
 import { VectorStore } from "langchain/vectorstores/base";
 import { Document } from "langchain/document";
-import Strategy from "./lib/Strategy";
-import Heuristic from "./tactics/Heuristic";
-import OpenAI from "./tactics/OpenAI";
-import Vector from "./tactics/Vector";
+import Strategy from "./lib/Strategy.js";
+import Heuristic from "./tactics/Heuristic.js";
+import OpenAI from "./tactics/OpenAI.js";
+import Vector from "./tactics/Vector.js";
 
 function generateCanaryWord(length = 8): string {
   // Generate a secure random hexadecimal canary word
