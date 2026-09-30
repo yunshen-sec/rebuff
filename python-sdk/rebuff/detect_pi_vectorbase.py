@@ -1,13 +1,37 @@
-from typing import Dict
+from typing import TYPE_CHECKING, Any, Dict
 
-import pinecone
-from langchain.vectorstores.pinecone import Pinecone
-from langchain_openai import OpenAIEmbeddings
+if TYPE_CHECKING:  # pragma: no cover - import only for type checkers
+    from langchain_core.vectorstores import VectorStore
+
+# The vector-database check is optional: importing pinecone/langchain at module scope
+# made the whole package unimportable for anyone who only uses the heuristic and
+# language-model checks, and `langchain.vectorstores.pinecone` no longer exists in
+# langchain >= 0.2. These dependencies are therefore imported lazily, inside the one
+# function that needs them.
+
+
+def _import_pinecone_vector_store() -> Any:
+    """Return the Pinecone vector-store class, preferring the current package."""
+    try:
+        from langchain_pinecone import PineconeVectorStore
+
+        return PineconeVectorStore
+    except ImportError:
+        pass
+    try:  # langchain < 0.2 layout
+        from langchain.vectorstores.pinecone import Pinecone as LegacyPinecone
+
+        return LegacyPinecone
+    except ImportError as exc:  # pragma: no cover - depends on the environment
+        raise ImportError(
+            "The vector-database check needs a Pinecone integration. "
+            "Install it with: pip install langchain-pinecone pinecone"
+        ) from exc
 
 
 # https://api.python.langchain.com/en/latest/vectorstores/langchain.vectorstores.pinecone.Pinecone.html
 def detect_pi_using_vector_database(
-    input: str, similarity_threshold: float, vector_store: Pinecone
+    input: str, similarity_threshold: float, vector_store: "VectorStore"
 ) -> Dict:
     """
     Detects Prompt Injection using similarity search with vector database.
@@ -15,7 +39,7 @@ def detect_pi_using_vector_database(
     Args:
         input (str): user input to be checked for prompt injection
         similarity_threshold (float): The threshold for similarity between entries in vector database and the user input.
-        vector_store (Pinecone): Vector database of prompt injections
+        vector_store (VectorStore): Vector database of prompt injections
 
     Returns:
         Dict (str, Union[float, int]): top_score (float) that contains the highest score wrt similarity between vector database and the user input.
@@ -47,7 +71,7 @@ def detect_pi_using_vector_database(
     return vector_score
 
 
-def init_pinecone(api_key: str, index: str, openai_api_key: str) -> Pinecone:
+def init_pinecone(api_key: str, index: str, openai_api_key: str) -> "VectorStore":
     """
     Initializes connection with the Pinecone vector database using existing (rebuff) index.
 
@@ -57,11 +81,16 @@ def init_pinecone(api_key: str, index: str, openai_api_key: str) -> Pinecone:
         openai_api_key (str): Open AI API key
 
     Returns:
-        vector_store (Pinecone)
+        vector_store (VectorStore)
 
     """
     if not api_key:
         raise ValueError("Pinecone apikey definition missing")
+
+    import pinecone
+    from langchain_openai import OpenAIEmbeddings
+
+    vector_store_cls = _import_pinecone_vector_store()
 
     pc = pinecone.Pinecone(api_key=api_key)
     pc_index = pc.Index(index)
@@ -70,6 +99,6 @@ def init_pinecone(api_key: str, index: str, openai_api_key: str) -> Pinecone:
         openai_api_key=openai_api_key, model="text-embedding-ada-002"
     )
 
-    vector_store = Pinecone(pc_index, openai_embeddings, text_key="input")
+    vector_store = vector_store_cls(pc_index, openai_embeddings, text_key="input")
 
     return vector_store

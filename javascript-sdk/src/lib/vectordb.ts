@@ -4,7 +4,7 @@ import { VectorStore } from "langchain/vectorstores/base";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { Chroma } from "langchain/vectorstores/chroma";
 import { Document } from "langchain/document.js";
-import { SdkConfig } from "../config";
+import { SdkConfig } from "../config.js";
 
 // Our code expects a similarity score where similar vectors are close to 1, but Chroma returns a distance score
 // where similar vectors are close to 0. Note that this class may not work if using a distance metric other than

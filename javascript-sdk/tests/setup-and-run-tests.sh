@@ -16,4 +16,4 @@ echo "Inserting Chroma test vectors..."
 node --loader ts-node/esm tests/insert-chroma-vectors.ts
 
 echo "Running tests..."
-npx mocha --require ts-node/register tests/**/*.test.ts
+npx mocha

@@ -1,6 +1,6 @@
 import { VectorStore } from "langchain/vectorstores/base";
-import { RebuffError, TacticName } from "../interface";
-import Tactic, { TacticExecution } from "./Tactic";
+import { RebuffError, TacticName } from "../interface.js";
+import Tactic, { TacticExecution } from "./Tactic.js";
 
 
 export default class Vector implements Tactic {
