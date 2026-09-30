@@ -7,6 +7,19 @@
   "MD041": false
 } -->
 
+> **This is a community-maintained fork.**
+>
+> The original [protectai/rebuff](https://github.com/protectai/rebuff) was archived by
+> Protect AI in August 2024. This fork exists to keep the project usable: it picks up
+> security fixes and dependency updates that landed after the upstream archive.
+> All credit for the original design and implementation belongs to the upstream authors;
+> the project remains under the same Apache-2.0 licence, reproduced unchanged in
+> [LICENSE](./LICENSE).
+>
+> Maintainer of this fork: secx — I am not affiliated with Protect AI.
+>
+> Changes made here are listed in [FORK_CHANGELOG.md](./FORK_CHANGELOG.md).
+
 <div align="center">
 
 ## Rebuff.ai
