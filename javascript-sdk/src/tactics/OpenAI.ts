@@ -1,7 +1,8 @@
-import { RebuffError, TacticName } from "../interface";
+import { RebuffError, TacticName } from "../interface.js";
 import { OpenAIApi } from "openai";
-import { renderPromptForPiDetection } from "../lib/prompts";
-import Tactic, { TacticExecution } from "./Tactic";
+import { renderPromptForPiDetection } from "../lib/prompts.js";
+import { parseModelScore } from "../lib/score.js";
+import Tactic, { TacticExecution } from "./Tactic.js";
 
 export default class OpenAI implements Tactic {
   name = TacticName.LanguageModel;
@@ -29,10 +30,14 @@ export default class OpenAI implements Tactic {
         throw new Error("completion.data.choices[0].message is undefined");
       }
 
-      // FIXME: Handle when parseFloat returns NaN.
-      const score = parseFloat(completion.data.choices[0].message.content || "");
+      const score = parseModelScore(completion.data.choices[0].message.content);
       return { score };
     } catch (error) {
+      if (error instanceof RebuffError) {
+        // Already a precise, fail-closed error (bad or unparseable score). Do not
+        // flatten it into a generic message -- callers need to know the check failed.
+        throw error;
+      }
       console.error("Error in callOpenAiToDetectPI:", error);
       throw new RebuffError("Error in getting score for large language model");
     }
