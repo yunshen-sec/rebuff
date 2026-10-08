@@ -16,7 +16,7 @@
 > the project remains under the same Apache-2.0 licence, reproduced unchanged in
 > [LICENSE](./LICENSE).
 >
-> Maintainer of this fork: secx — I am not affiliated with Protect AI.
+> Maintainer of this fork: 云深 — I am not affiliated with Protect AI.
 >
 > Changes made here are listed in [FORK_CHANGELOG.md](./FORK_CHANGELOG.md).
 
